@@ -1,0 +1,46 @@
+.container {
+  background-image: linear-gradient(
+    to bottom,
+    rgb(82, 82, 82),
+    rgb(58, 58, 58)
+  );
+  color: white;
+  border-bottom: 1px solid grey;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  height: 65px;
+  padding: 13px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.divider {
+  width: 50%;
+}
+
+.text:hover {
+  color: rgb(168, 168, 168);
+  cursor: pointer;
+}
+
+.left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.logo {
+  height: 30px;
+  width: 35px;
+  cursor: pointer;
+}
