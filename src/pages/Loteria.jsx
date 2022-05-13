@@ -11,6 +11,7 @@ export const Loteria = ({ }) => {
     const [valorTotalAposta, setTotalAposta] = useState('');
     const [providerLoteria, setProviderLoteria] = useState('');
     const [loteriaContrato, setLoteriaContrato] = useState('');
+    const [donoDaBanca, setDonoDaBanca] = useState('');
 
     useEffect(() => {
         if (!address) {
@@ -21,6 +22,7 @@ export const Loteria = ({ }) => {
                 handlePegarValorAposta();
                 handleApostaGanhador();
                 handleTotalAposta();
+                handleDonoDaBanca();
             }
         }
     }, [address]);
@@ -77,6 +79,7 @@ export const Loteria = ({ }) => {
     const handleApostar = async () => {
         await loteriaContrato.apostar({ value: valorAposta }).then(e => {
             console.log('apostado!');
+            alert('Você está participando do sorteio!');
         }).catch(er => {
 
             console.log('aqui', er);
@@ -85,7 +88,7 @@ export const Loteria = ({ }) => {
 
     const handleDonoDaBanca = async () => {
         await loteriaContrato.aposta_dono_banca().then(e => {
-            console.log(e)
+            setDonoDaBanca(e)
         })
     }
 
@@ -93,7 +96,6 @@ export const Loteria = ({ }) => {
         await loteriaContrato.aposta_ganhador().then(e => {
             if (e.toString().toUpperCase() == address.toString().toUpperCase())
                 alert('voce ganhou')
-            console.log(e)
         })
     }
 
@@ -114,6 +116,9 @@ export const Loteria = ({ }) => {
             </div>
             <div>
                 <Label text={`Valor Total Recompensa: ${valorTotalAposta}`} />
+            </div>
+            <div>
+                <Label text={`Dono Da Banca: ${donoDaBanca}`} />
             </div>
 
             <Label text='teste' />
