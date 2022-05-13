@@ -52,13 +52,11 @@ export const Loteria = ({ }) => {
 
 
             const chainId_ = await window.ethereum.request({ method: 'eth_chainId' });
-            console.log(chainId_)
 
             await window.ethereum.request({
                 method: 'wallet_switchEthereumChain',
                 params: [{ chainId: '0x4' }],
             }).then(e => {
-                console.log(chainId_)
                 setChainId(chainId_)
             });
 
@@ -71,17 +69,14 @@ export const Loteria = ({ }) => {
     const handlePegarValorAposta = async () => {
         await loteriaContrato.aposta_valor().then(e => {
             let valor = ethers.BigNumber.from(e.toHexString()).toNumber();
-            console.log(valor);
             setValorAposta(valor);
         })
     }
 
     const handleApostar = async () => {
         await loteriaContrato.apostar({ value: valorAposta }).then(e => {
-            console.log('apostado!');
             alert('Você está participando do sorteio!');
         }).catch(er => {
-
             console.log('aqui', er);
         });
     }
