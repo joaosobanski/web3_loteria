@@ -40,12 +40,6 @@ export const Loteria = ({ }) => {
             window.ethereum.request({ method: 'eth_requestAccounts' })
                 .then(result => {
                     setAddress(result[0]);
-                    /*
-                    accountChangedHandler(result[0]);
-                    setAddress(result[0]);
-                    getAccountBalance(result[0]);
-                    setConnected(true);
-                    */
                 }).catch(error => {
                     alert(error.message);
                 });
