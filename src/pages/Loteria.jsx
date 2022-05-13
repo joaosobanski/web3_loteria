@@ -35,7 +35,7 @@ export const Loteria = ({}) => {
     setProviderLoteria(provider);
     const signer = await provider.getSigner();
     const contrato = new ethers.Contract(
-      "0xAfC05E6d320a64235b2d9A7994872881298b6A35",
+      "0xD12A8A604Fd01A1BEC933f348521628A75c7299e",
       loteriaAbi,
       signer
     );
