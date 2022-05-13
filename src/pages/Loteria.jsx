@@ -36,7 +36,7 @@ export const Loteria = ({ }) => {
     setProviderLoteria(provider);
     const signer = await provider.getSigner();
     const contrato = new ethers.Contract(
-      "0xAfC05E6d320a64235b2d9A7994872881298b6A35",
+      "0xb2F0BE0AC9CF9eC33e05C8F1FBB486020396D3f5",
       loteriaAbi,
       signer
     );
@@ -71,7 +71,7 @@ export const Loteria = ({ }) => {
   };
 
   const handlePegarValorAposta = async () => {
-    await loteriaContrato.aposta_valor().then((e) => {
+    await loteriaContrato.apostaValor().then((e) => {
       let valor = ethers.BigNumber.from(e.toHexString()).toNumber();
       setValorAposta(valor);
     });
@@ -82,13 +82,11 @@ export const Loteria = ({ }) => {
     try {
       const txn = await loteriaContrato
         .apostar({ value: valorAposta })
-        .then((e) => {
-          alert("Você está participando do sorteio!");
-        })
         .catch((er) => {
           alert(er.error.message);
         });
       await txn.wait();
+      alert("Você está participando do sorteio!");
     } catch (er) {
       alert(er);
     } finally {
@@ -98,20 +96,20 @@ export const Loteria = ({ }) => {
   };
 
   const handleDonoDaBanca = async () => {
-    await loteriaContrato.aposta_dono_banca().then((e) => {
+    await loteriaContrato.apostaDonoBanca().then((e) => {
       setDonoDaBanca(e);
     });
   };
 
   const handleApostaGanhador = async () => {
-    await loteriaContrato.aposta_ganhador().then((e) => {
+    await loteriaContrato.apostaGanhador().then((e) => {
       if (e.toString().toUpperCase() == address.toString().toUpperCase())
         alert("voce foi o vencedor da ultima loteria!");
     });
   };
 
   const handleTotalAposta = async () => {
-    await loteriaContrato.aposta_total().then((e) => {
+    await loteriaContrato.apostaTotal().then((e) => {
       let valor = ethers.BigNumber.from(e.toHexString()).toNumber();
       setTotalAposta(valor);
     });
@@ -137,6 +135,12 @@ export const Loteria = ({ }) => {
               </div>
             </section>
             <div className={classes["button-container"]}>
+
+              {
+                load &&
+                <Button text='Loading' />
+              }
+
               <Button text='Apostar' handleClick={handleApostar} />
               <Button text='Dono da Banca' handleClick={handleDonoDaBanca} />
               <Button

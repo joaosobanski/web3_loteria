@@ -35,7 +35,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "valor_ganho",
+        "name": "valorGanho",
         "type": "uint256"
       }
     ],
@@ -44,12 +44,12 @@
   },
   {
     "inputs": [],
-    "name": "aposta_dono_banca",
+    "name": "aberta",
     "outputs": [
       {
-        "internalType": "address",
+        "internalType": "bool",
         "name": "",
-        "type": "address"
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -57,14 +57,14 @@
   },
   {
     "inputs": [],
-    "name": "aposta_fechar",
+    "name": "apostaAbertura",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "aposta_ganhador",
+    "name": "apostaDonoBanca",
     "outputs": [
       {
         "internalType": "address",
@@ -77,7 +77,27 @@
   },
   {
     "inputs": [],
-    "name": "aposta_taxa",
+    "name": "apostaFechamento",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "apostaGanhador",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "apostaTaxa",
     "outputs": [
       {
         "internalType": "uint256",
@@ -90,7 +110,7 @@
   },
   {
     "inputs": [],
-    "name": "aposta_total",
+    "name": "apostaTotal",
     "outputs": [
       {
         "internalType": "uint256",
@@ -103,7 +123,7 @@
   },
   {
     "inputs": [],
-    "name": "aposta_valor",
+    "name": "apostaValor",
     "outputs": [
       {
         "internalType": "uint256",
@@ -116,7 +136,20 @@
   },
   {
     "inputs": [],
-    "name": "depostit",
+    "name": "apostadores",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "apostar",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
