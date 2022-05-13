@@ -95,7 +95,7 @@ export const Loteria = ({ }) => {
     const handleApostaGanhador = async () => {
         await loteriaContrato.aposta_ganhador().then(e => {
             if (e.toString().toUpperCase() == address.toString().toUpperCase())
-                alert('voce ganhou')
+                alert('voce foi o vencedor da ultima loteria!')
         })
     }
 
@@ -108,24 +108,28 @@ export const Loteria = ({ }) => {
 
     return (
         <div>
-            <div>
-                <Button text={address ? address : 'connect wallet'} handleClick={handleConectar} />
-            </div>
-            <div>
-                <Label text={`Valor Aposta: ${valorAposta}`} />
-            </div>
-            <div>
-                <Label text={`Valor Total Recompensa: ${valorTotalAposta}`} />
-            </div>
-            <div>
-                <Label text={`Dono Da Banca: ${donoDaBanca}`} />
-            </div>
+            {!address ?
+                <div>
+                    <Button text={address ? address : 'connect wallet'} handleClick={handleConectar} />
+                </div>
+                :
+                <div>
+                    <div>
+                        <Label text={`Valor Aposta: ${valorAposta}`} />
+                    </div>
+                    <div>
+                        <Label text={`Valor Total Recompensa: ${valorTotalAposta}`} />
+                    </div>
+                    <div>
+                        <Label text={`Dono Da Banca: ${donoDaBanca}`} />
+                    </div>
 
-            <Label text='teste' />
-            <Button text='apostar' handleClick={handleApostar} />
-            <Button text='DONO DA BANCA' handleClick={handleDonoDaBanca} />
-            <Button text='aposta ganhador' handleClick={handleApostaGanhador} />
-
+                    <Label text='teste' />
+                    <Button text='apostar' handleClick={handleApostar} />
+                    <Button text='DONO DA BANCA' handleClick={handleDonoDaBanca} />
+                    <Button text='aposta ganhador' handleClick={handleApostaGanhador} />
+                </div>
+            }
         </div>
     )
 }
