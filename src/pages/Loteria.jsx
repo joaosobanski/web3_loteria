@@ -7,7 +7,8 @@ import PlaceHolder from "../Components/Welcomepage/PlaceHolder";
 import loteriaAbi from "../Contracts/loteria.json";
 import classes from "./Loteria.module.css";
 
-export const Loteria = ({}) => {
+export const Loteria = ({ }) => {
+  const [load, setLoad] = useState(false);
   const [chainId, setChainId] = useState("");
   const [address, setAddress] = useState("");
   const [valorAposta, setValorAposta] = useState("");
@@ -35,7 +36,7 @@ export const Loteria = ({}) => {
     setProviderLoteria(provider);
     const signer = await provider.getSigner();
     const contrato = new ethers.Contract(
-      "0xD12A8A604Fd01A1BEC933f348521628A75c7299e",
+      "0xAfC05E6d320a64235b2d9A7994872881298b6A35",
       loteriaAbi,
       signer
     );
@@ -77,14 +78,23 @@ export const Loteria = ({}) => {
   };
 
   const handleApostar = async () => {
-    await loteriaContrato
-      .apostar({ value: valorAposta })
-      .then((e) => {
-        alert("Você está participando do sorteio!");
-      })
-      .catch((er) => {
-        console.log("aqui", er);
-      });
+    setLoad(true);
+    try {
+      const txn = await loteriaContrato
+        .apostar({ value: valorAposta })
+        .then((e) => {
+          alert("Você está participando do sorteio!");
+        })
+        .catch((er) => {
+          alert(er.error.message);
+        });
+      await txn.wait();
+    } catch (er) {
+      alert(er);
+    } finally {
+      setLoad(false);
+    }
+
   };
 
   const handleDonoDaBanca = async () => {
