@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Button } from "../Components/Button/Button";
 import Header from "../Components/Header/Header";
 import { Label } from "../Components/Label/Label";
+import Loading from "../Components/Modal/Loading";
 import PlaceHolder from "../Components/Welcomepage/PlaceHolder";
 import loteriaAbi from "../Contracts/loteria.json";
 import classes from "./Loteria.module.css";
 
-export const Loteria = ({ }) => {
+export const Loteria = ({}) => {
   const [load, setLoad] = useState(false);
   const [chainId, setChainId] = useState("");
   const [address, setAddress] = useState("");
@@ -92,7 +93,6 @@ export const Loteria = ({ }) => {
     } finally {
       setLoad(false);
     }
-
   };
 
   const handleDonoDaBanca = async () => {
@@ -117,6 +117,7 @@ export const Loteria = ({ }) => {
 
   return (
     <div className={classes.wrapper}>
+      {load && <Loading />}
       <Header isLogged={address} connectWallet={handleConectar} />
       {!address ? (
         <PlaceHolder />
@@ -135,12 +136,6 @@ export const Loteria = ({ }) => {
               </div>
             </section>
             <div className={classes["button-container"]}>
-
-              {
-                load &&
-                <Button text='Loading' />
-              }
-
               <Button text='Apostar' handleClick={handleApostar} />
               <Button text='Dono da Banca' handleClick={handleDonoDaBanca} />
               <Button
