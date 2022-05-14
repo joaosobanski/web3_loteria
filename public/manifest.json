@@ -8,12 +8,12 @@
       "type": "image/x-icon"
     },
     {
-      "src": "winner.png",
+      "src": "images/winner.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "winner.png",
+      "src": "images/winner.png",
       "type": "image/png",
       "sizes": "512x512"
     }
