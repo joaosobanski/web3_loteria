@@ -1,8 +1,10 @@
-import { ethers } from "ethers";
+import { ethers, utils } from "ethers";
+
 import React, { useEffect, useState } from "react";
 import { Button } from "../Components/Button/Button";
 import Header from "../Components/Header/Header";
 import { Label } from "../Components/Label/Label";
+import { Table } from "../Components/Table/Table";
 import PlaceHolder from "../Components/Welcomepage/PlaceHolder";
 import loteriaAbi from "../Contracts/loteria.json";
 import classes from "./Loteria.module.css";
@@ -16,6 +18,7 @@ export const Loteria = ({ }) => {
   const [providerLoteria, setProviderLoteria] = useState("");
   const [loteriaContrato, setLoteriaContrato] = useState("");
   const [donoDaBanca, setDonoDaBanca] = useState("");
+  const [apostadores, setApostadores] = useState([]);
 
   useEffect(() => {
     if (!address) {
@@ -27,9 +30,10 @@ export const Loteria = ({ }) => {
         handleApostaGanhador();
         handleTotalAposta();
         handleDonoDaBanca();
+        handleApostadores();
       }
     }
-  }, [address]);
+  }, [address, valorTotalAposta, apostadores, load]);
 
   const createProvider = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -86,13 +90,13 @@ export const Loteria = ({ }) => {
           alert(er.error.message);
         });
       await txn.wait();
+      handleApostadores();
       alert("Você está participando do sorteio!");
     } catch (er) {
       alert(er);
     } finally {
       setLoad(false);
     }
-
   };
 
   const handleDonoDaBanca = async () => {
@@ -110,10 +114,20 @@ export const Loteria = ({ }) => {
 
   const handleTotalAposta = async () => {
     await loteriaContrato.apostaTotal().then((e) => {
-      let valor = ethers.BigNumber.from(e.toHexString()).toNumber();
-      setTotalAposta(valor);
+      setTotalAposta(e);
     });
   };
+
+  const handleApostadores = async () => {
+    await loteriaContrato.apostadores().then((e) => {
+      setApostadores(e);
+    });
+  };
+
+  const covertEth = (wei) => {
+    const etherValor = utils.formatUnits(wei.toHexString(), "ether");
+    return etherValor;
+  }
 
   return (
     <div className={classes.wrapper}>
@@ -135,19 +149,23 @@ export const Loteria = ({ }) => {
               </div>
             </section>
             <div className={classes["button-container"]}>
+              {load && <Button text="Loading" />}
 
-              {
-                load &&
-                <Button text='Loading' />
-              }
-
-              <Button text='Apostar' handleClick={handleApostar} />
-              <Button text='Dono da Banca' handleClick={handleDonoDaBanca} />
+              <Button text="Apostar" handleClick={handleApostar} />
+              <Button text="Dono da Banca" handleClick={handleDonoDaBanca} />
               <Button
-                text='Aposta ganhador'
+                text="Aposta ganhador"
                 handleClick={handleApostaGanhador}
               />
             </div>
+          </div>
+
+          <div>
+            <h1>Apostadores</h1>
+            <Table
+              apostadoresData={apostadores}
+
+            />
           </div>
         </div>
       )}
