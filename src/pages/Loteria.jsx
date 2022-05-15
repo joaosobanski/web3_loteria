@@ -10,7 +10,7 @@ import PlaceHolder from "../Components/Welcomepage/PlaceHolder";
 import loteriaAbi from "../Contracts/loteria.json";
 import classes from "./Loteria.module.css";
 
-export const Loteria = ({}) => {
+export const Loteria = ({ }) => {
   const [load, setLoad] = useState(false);
   const [chainId, setChainId] = useState("");
   const [address, setAddress] = useState("");
@@ -41,7 +41,7 @@ export const Loteria = ({}) => {
     setProviderLoteria(provider);
     const signer = await provider.getSigner();
     const contrato = new ethers.Contract(
-      "0xb2F0BE0AC9CF9eC33e05C8F1FBB486020396D3f5",
+      "0x73511669fd4dE447feD18BB79bAFeAC93aB7F31f",
       loteriaAbi,
       signer
     );
@@ -49,6 +49,7 @@ export const Loteria = ({}) => {
   };
 
   const handleConectar = async () => {
+
     if (window.ethereum && window.ethereum.isMetaMask) {
       window.ethereum
         .request({ method: "eth_requestAccounts" })
@@ -107,14 +108,19 @@ export const Loteria = ({}) => {
   };
 
   const handleApostaGanhador = async () => {
-    await loteriaContrato.apostaGanhador().then((e) => {
-      if (e.toString().toUpperCase() == address.toString().toUpperCase())
-        alert("voce foi o vencedor da ultima loteria!");
-    });
+
+    let aberta = await loteriaContrato.aberta();
+
+    if (!aberta) {
+      await loteriaContrato.apostaGanhador().then((e) => {
+        if (e.toString().toUpperCase() == address.toString().toUpperCase())
+          alert("voce foi o vencedor da ultima loteria!");
+      });
+    }
   };
 
   const handleTotalAposta = async () => {
-    await loteriaContrato.apostaTotal().then((e) => {
+    await loteriaContrato.calcularPremio().then((e) => {
       setTotalAposta(e);
     });
   };
@@ -149,6 +155,10 @@ export const Loteria = ({}) => {
               <div>
                 <Label text={`Dono Da Banca: ${donoDaBanca}`} />
               </div>
+              <div>
+                <Label text={`Minha Carteira: ${address}`} />
+              </div>
+
             </section>
             <div className={classes["button-container"]}>
               {load && <Button text="Loading" />}
